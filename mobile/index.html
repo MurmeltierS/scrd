@@ -1,26 +1,339 @@
 <!doctype html>
 <html>
   <head>
-    <title>Socket.IO chat</title>
+    <title>SCRD</title>
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body { font: 13px Helvetica, Arial; }
-      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
-      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
-      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
-      #messages { list-style-type: none; margin: 0; padding: 0; }
-      #messages li { padding: 5px 10px; }
-      #messages li:nth-child(odd) { background: #eee; }
+      @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
+      @import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+
+        *{
+          -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: transparent;
+        }
+
+        body{
+          margin: 0;
+          font-family: 'Montserrat', sans-serif;
+          color: #fff;
+        }
+
+        input[type=range].slider {
+          -webkit-appearance: none;
+          width: 100%;
+          margin: 13.5px 0;
+        }
+        input[type=range].slider:focus {
+          outline: none;
+        }
+        input[type=range].slider::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 5px;
+          cursor: pointer;
+          box-shadow: 0px 0px px rgba(255, 255, 255, 0), 0px 0px 0px rgba(255, 255, 255, 0);
+          background: #ffffff;
+          border-radius: 50px;
+          border: 0px solid rgba(255, 255, 255, 0);
+        }
+        input[type=range].slider::-webkit-slider-thumb {
+          box-shadow: 0px 0px 0px rgba(0, 0, 62, 0), 0px 0px 0px rgba(0, 0, 88, 0);
+          border: 0px solid rgba(255, 255, 255, 0.57);
+          height: 32px;
+          width: 32px;
+          border-radius: 50px;
+          background: #ffffff;
+          cursor: pointer;
+          -webkit-appearance: none;
+          margin-top: -13.5px;
+        }
+        input[type=range].slider:focus::-webkit-slider-runnable-track {
+          background: #ffffff;
+        }
+        input[type=range].slider::-moz-range-track {
+          width: 100%;
+          height: 5px;
+          cursor: pointer;
+          box-shadow: 0px 0px px rgba(255, 255, 255, 0), 0px 0px 0px rgba(255, 255, 255, 0);
+          background: #ffffff;
+          border-radius: 50px;
+          border: 0px solid rgba(255, 255, 255, 0);
+        }
+        input[type=range].slider::-moz-range-thumb {
+          box-shadow: 0px 0px 0px rgba(0, 0, 62, 0), 0px 0px 0px rgba(0, 0, 88, 0);
+          border: 0px solid rgba(255, 255, 255, 0.57);
+          height: 32px;
+          width: 32px;
+          border-radius: 50px;
+          background: #ffffff;
+          cursor: pointer;
+        }
+        input[type=range].slider::-ms-track {
+          width: 100%;
+          height: 5px;
+          cursor: pointer;
+          background: transparent;
+          border-color: transparent;
+          color: transparent;
+        }
+        input[type=range].slider::-ms-fill-lower {
+          background: #f2f2f2;
+          border: 0px solid rgba(255, 255, 255, 0);
+          border-radius: 100px;
+          box-shadow: 0px 0px px rgba(255, 255, 255, 0), 0px 0px 0px rgba(255, 255, 255, 0);
+        }
+        input[type=range].slider::-ms-fill-upper {
+          background: #ffffff;
+          border: 0px solid rgba(255, 255, 255, 0);
+          border-radius: 100px;
+          box-shadow: 0px 0px px rgba(255, 255, 255, 0), 0px 0px 0px rgba(255, 255, 255, 0);
+        }
+        input[type=range].slider::-ms-thumb {
+          box-shadow: 0px 0px 0px rgba(0, 0, 62, 0), 0px 0px 0px rgba(0, 0, 88, 0);
+          border: 0px solid rgba(255, 255, 255, 0.57);
+          height: 32px;
+          width: 32px;
+          border-radius: 50px;
+          background: #ffffff;
+          cursor: pointer;
+          height: 5px;
+        }
+        input[type=range].slider:focus::-ms-fill-lower {
+          background: #ffffff;
+        }
+        input[type=range].slider:focus::-ms-fill-upper {
+          background: #ffffff;
+        }
+
+
+
+        button:focus{
+          outline:none;
+        }
+
+        .microAppBG{
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
+        }
+
+        .microAppBG img {
+            filter: blur(30px);
+            width: 200vw;
+            height: 200vh;
+            -webkit-filter: blur(50px) brightness(30%);
+            -moz-filter: blur(50px) brightness(30%);
+            -o-filter: blur(50px) brightness(30%);
+            -ms-filter: blur(50px) brightness(30%);
+            margin: -50vh -50vw -50vh -50vw;
+        }
+
+        .microApp{
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
+        }
+
+        .main{
+          
+        }
+
+        .navTop{
+          width: calc(100vw - 40px);
+          height: 38px;
+          padding: 20px;
+          font-size: 32px;
+        }
+
+        .navBtn{
+          float: right;
+          font-size: 40px;
+          line-height: 32px;
+          vertical-align: bottom;
+        }
+
+        .microApp h1{
+          display: inline;
+          font-weight: 300;
+          margin: 0;
+          font-size: 32px;
+        }
+
+        .microApp .center{
+          height: calc(70vh - 77.89px);
+          margin: 0 20px;
+        }
+
+        .microApp .preview{
+          /*background-image: url('http://kurzgesagt.org/wp-content/uploads/2017/06/Start-Page_WhiteDwarfs.png');
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;*/
+          width: 100%;
+          height: 100%;
+          filter: drop-shadow(0px 0px 5px rgba(255,255,255, 0.5));
+          overflow: hidden;
+        }
+
+        .microApp .preview img{
+          display: block;
+          margin: 30px auto;
+          max-width: 100%;
+          max-height: calc(70% - 60px);
+        }
+
+        .microApp h2{
+          font-weight: 100;
+          font-size: 24px;
+        }
+
+
+        .microApp .bottom{
+          width: 100vw;
+          height: 30vh;
+        }
+
+        .sliderWrapper{
+          height: 10vh;
+          width: calc(100vw - 40px);
+          padding: 0 20px;
+        }
+
+        .controls{
+          height: 20vh;
+          width: 100vw;
+          line-height: 20vh;
+          text-align: center;
+        }
+
+        .controls button{
+          display: inline;
+          background: transparent;
+          border: none;
+          color: inherit;
+          font-size: 8vh;
+          text-align: center;
+          line-height: inherit;
+          min-width: 25vw;
+          vertical-align: middle;
+        }
+
+        .controls .play{
+          font-size: 15vh;
+        }
+
+        button.normal{
+          display: inline;
+          background: transparent;
+          border: 1px solid #fff;
+          border-radius: 1000px;
+          color: inherit;
+          font-size: 1.5em;
+          text-align: center;
+          line-height: inherit;
+          width: 100%;
+          padding: 10px;
+          vertical-align: middle;
+        }
+
     </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#111">
   </head>
   <body>
-    <ul id="messages"></ul>
-    <form action="">
-      <input id="m" autocomplete="off" /><button>Send</button>
-    </form>
+    <div id="window">
+    </div>
+    
   </body>
   <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
+
+
+  var HomeMobile = class HomeMobile {
+  constructor(pWin) {
+    this.win = pWin;
+    this.name = "HOMEmobile";
+    this.win.classList.add(this.name);
+    this.html = "<div class=\"microAppBG\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <\/div> <div class=\"microApp\"> <div class=\"main\"> <div class=\"navTop\"><h1>Home<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\">  <h2>W\u00E4hle die zu startende App.<\/h2> <button  onclick=\"socket.emit(\'startApp\', \'YouTube\')\" class=\"normal\">YouTube<\/button> <\/div><div class=\"bottom\"> <\/div> <\/div> <\/div>";
+    this.start();
+  }
+
+  start() {
+    this.win.innerHTML = this.html;
+  }
+}
+
+var YouTubeMobile = class YouTubeMobile {
+  constructor(pWin) {
+    this.win = pWin;
+    this.name = "YOUTUBEmobile";
+    this.win.classList.add(this.name);
+    this.volume = 100;
+    this.html = "<div class=\"microAppBG\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <\/div> <div class=\"microApp\"> <div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2>The Last Light Before Eternal Darkness<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input class=\"slider\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button class=\"play\"><i class=\"ion-ios-play-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div> <\/div>";
+    this.start();
+  }
+
+  start() {
+    this.win.innerHTML = this.html;
+  }
+
+  updateVolume(pVol){
+    this.volume = pVol;
+  }
+}
+  
+  class scrdMobile {
+  constructor(pWin) {
+    this.win = pWin;
+    this.currentApp = [];
+  }
+  
+  get app() {
+    return this.currentApp;
+  }
+
+  userConnected() {
+    this.startApp(Home);
+  }
+
+  createWin() {
+    this.win.getElementById("window").classList = "";
+    return this.win.getElementById("window");
+  }
+
+  startApp(pApp) {
+    this.currentApp = new pApp(this.createWin());
+  }
+
+  setTheme(pSrc){
+    var themeIMG = document.getElementsByClassName("themeIMG");
+    for(var i = 0; i<themeIMG.length; i++){
+      themeIMG[i].src = pSrc;
+    }
+  }
+
+  exeFunction(pObj){
+    this.app[pObj.call].apply(this.app, pObj.arg);
+  }
+
+}
+
+var m = new scrdMobile(document);
+m.startApp(HomeMobile);
+
+socket.on('startApp', function(msg){
+      
+      m.startApp(window[msg+"Mobile"]);
+
+    });
+
+socket.on('exeFunction', function(msg){
+      
+      m.exeFunction(msg);
+
+    });
+
 </script>
 </html>

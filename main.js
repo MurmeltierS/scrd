@@ -19,6 +19,11 @@ mobileapp.get('/', function(req, res){
 io.on('connection', function(socket){
   console.log('a user connected');
   contents.executeJavaScript('connected()');
+  socket.on('startApp', function(msg){
+    console.log('startApp: ' + msg);
+    contents.executeJavaScript('startApp("'+msg+'")');
+    io.emit('startApp', msg);
+  });
 });
 
 http.listen(3000, function(){
@@ -33,6 +38,8 @@ function makeQR(){
 global.something = "heyho:)";
 
 
+
+global.io = io;
 
 
 
