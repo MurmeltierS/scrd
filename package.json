@@ -1,0 +1,20 @@
+{
+  "name": "smartclassroom",
+  "version": "1.0.0",
+  "description": "Die scrd Anwendung",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Kevin Sieger",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.8.4"
+  },
+  "dependencies": {
+    "electron-builder": "^20.13.3",
+    "express": "^4.15.2",
+    "ip": "^1.1.5",
+    "socket.io": "^2.1.0"
+  }
+}
