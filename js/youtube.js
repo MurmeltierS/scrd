@@ -19,7 +19,7 @@ function onYouTubeIframeAPIReady() {
 function initialize(){
 
     // Update the controls on load
-    updateTimerDisplay();
+    //updateTimerDisplay();
     updateProgressBar();
 
     // Clear any old interval.
@@ -28,11 +28,17 @@ function initialize(){
     // Start interval to update elapsed time display and
     // the elapsed part of the progress bar every second.
     time_update_interval = setInterval(function () {
-        updateTimerDisplay();
+        //updateTimerDisplay();
         updateProgressBar();
     }, 1000);
 
     //s.io.emit('exeFunction', {call: "updateVolume", arg: [(Math.round(player.getVolume()))]});
     s.call("updateVolume")(Math.round(player.getVolume()));
     document.getElementById('volume-input').value = (Math.round(player.getVolume()));
+}
+
+// This function is called by initialize()
+function updateProgressBar(){
+    // Update the value of our progress bar accordingly.
+    s.call("updateProgressBar")((player.getCurrentTime() / player.getDuration()) * 100);
 }

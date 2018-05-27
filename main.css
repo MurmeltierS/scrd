@@ -90,3 +90,12 @@ body{
 	margin: auto;
 	margin-top: 40vh;
 }
+
+#window.YT #video-placeholder{
+            position: absolute;
+            z-index: 200;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+          }

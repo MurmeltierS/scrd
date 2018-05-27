@@ -19,6 +19,9 @@ mobileapp.get('/', function(req, res){
 io.on('connection', function(socket){
   console.log('a user connected');
   contents.executeJavaScript('connected()');
+  socket.on('call', function(msg){
+    contents.executeJavaScript('s.exeFunction('+JSON.stringify(msg)+')')
+  });
   socket.on('startApp', function(msg){
     console.log('startApp: ' + msg);
     contents.executeJavaScript('startApp("'+msg+'")');

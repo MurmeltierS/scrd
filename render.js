@@ -1,4 +1,5 @@
 const remote = require('electron').remote;
+var temp = temp || {};
 
 class scrd {
   constructor(pWin) {
@@ -15,9 +16,13 @@ class scrd {
   }
 
   call(pFuncString){
-    temp.self = this;
-    temp.pFuncString = pFuncString;
-    return function(){temp.self.io.emit('exeFunction', {call: temp.pFuncString, arg: arguments});};
+    var self = this;
+    return function(){
+      var args = [];
+    for (var i = 0; i < arguments.length; i++)
+        args[i] = arguments[i];
+      self.io.emit('exeFunction', {call: pFuncString, arg: args});
+    };
   }
 
   userConnected() {
@@ -38,6 +43,10 @@ class scrd {
     for(var i = 0; i<themeIMG.length; i++){
       themeIMG[i].src = pSrc;
     }
+  }
+
+  exeFunction(pObj){
+    this.app[pObj.call].apply(this.app, pObj.arg);
   }
 }
 
@@ -68,6 +77,10 @@ var YouTube = class YouTube {
   startVideo(){
     console.log("js loaded");
     onYouTubeIframeAPIReady();
+  }
+
+  play(){
+    player.playVideo();
   }
 
   start() {

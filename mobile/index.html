@@ -237,6 +237,8 @@
           vertical-align: middle;
         }
 
+
+
     </style>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#111">
@@ -271,16 +273,31 @@ var YouTubeMobile = class YouTubeMobile {
     this.name = "YOUTUBEmobile";
     this.win.classList.add(this.name);
     this.volume = 100;
-    this.html = "<div class=\"microAppBG\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <\/div> <div class=\"microApp\"> <div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2>The Last Light Before Eternal Darkness<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input class=\"slider\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button class=\"play\"><i class=\"ion-ios-play-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div> <\/div>";
+    this.play = false;
+    this.html = "<div class=\"microAppBG\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <\/div> <div class=\"microApp\"> <div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2>The Last Light Before Eternal Darkness<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i class=\"ion-ios-play-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div> <\/div>";
     this.start();
+
   }
 
   start() {
+    
     this.win.innerHTML = this.html;
+    document.getElementById("ytPlay").addEventListener("click", this.toggle, false);
+  }
+
+  toggle(){
+    if(!this.play){
+      m.call("play")();
+      console.log("play");
+    };
   }
 
   updateVolume(pVol){
     this.volume = pVol;
+  }
+
+  updateProgressBar(pVal){
+    document.getElementById("ytProg").value= pVal;
   }
 }
   
@@ -294,8 +311,15 @@ var YouTubeMobile = class YouTubeMobile {
     return this.currentApp;
   }
 
-  userConnected() {
-    this.startApp(Home);
+
+  call(pFuncString){
+    var self = this;
+    return function(){
+      var args = [];
+      for (var i = 0; i < arguments.length; i++)
+        args[i] = arguments[i];
+      socket.emit('call', {call: pFuncString, arg: args});
+    };
   }
 
   createWin() {
@@ -315,7 +339,12 @@ var YouTubeMobile = class YouTubeMobile {
   }
 
   exeFunction(pObj){
+    try{
     this.app[pObj.call].apply(this.app, pObj.arg);
+  }
+  catch(e){
+    console.log(e);
+  }
   }
 
 }
