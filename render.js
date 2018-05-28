@@ -83,6 +83,10 @@ var YouTube = class YouTube {
     player.playVideo();
   }
 
+  pause(){
+    player.pauseVideo();
+  }
+
   start() {
     this.win.innerHTML = this.html;
   }

@@ -7,8 +7,12 @@ function onYouTubeIframeAPIReady() {
         height: 400,
         videoId: 'Xa0Q0J5tOP0',
         playerVars: {
-            color: 'white',
-            playlist: 'taJ60kskkns,FG0fTKAqZ5g'
+            rel: 0,
+			modestbranding: 0,
+			controls: 0,
+			showinfo: 0,
+			autoplay: 1,
+			iv_load_policy: 3
         },
         events: {
             onReady: initialize
@@ -42,3 +46,4 @@ function updateProgressBar(){
     // Update the value of our progress bar accordingly.
     s.call("updateProgressBar")((player.getCurrentTime() / player.getDuration()) * 100);
 }
+
