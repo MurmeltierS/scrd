@@ -25,6 +25,24 @@ class scrd {
     };
   }
 
+  callAjax(url, callback){
+    var xmlhttp;
+    // compatible with IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            try{
+              var json = JSON.parse(xmlhttp.responseText);
+              callback(json);
+            }catch(e){
+              callback(xmlhttp.responseText);
+            }
+        }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
+
   userConnected() {
   	this.startApp(Home);
   }
@@ -35,6 +53,10 @@ class scrd {
   }
 
   startApp(pApp) {
+    var id = window.setInterval(function() {}, 0);
+    while (id--) {
+     window.clearTimeout(id); // will do nothing if no timeout with id is present
+    }
     this.currentApp = new pApp(this.createWin());
   }
 
@@ -66,17 +88,35 @@ var Home = class Home {
 
 var YouTube = class YouTube {
   constructor(pWin) {
-    loadJS('js/youtube.js', this.startVideo, document.body);
     this.win = pWin;
     this.name = "YT";
+    this.id = "";
     this.win.classList.add(this.name);
-    this.html = "<img class=\"logo\" src=\"img/yt_logo_rgb_dark.png\"> <div id=\"video-placeholder\"></div><input id=\"volume-input\" type=\"number\" max=\"100\" min=\"0\">";
+    this.html = "<img class=\"logo\" src=\"img/yt_logo_rgb_dark.png\"> <div id=\"video-placeholder\"></div>";
     this.start();
   }
 
   startVideo(){
     console.log("js loaded");
-    onYouTubeIframeAPIReady();
+    console.log(this);
+    onYouTubeIframeAPIReady(this.id);
+  }
+
+  loadVideo(pID){
+    console.log("loadVideo:"+pID);
+    this.id = pID;
+    if(typeof player !== 'undefined'){
+      try{
+        player.loadVideoById(this.id, 0);
+      }catch(e){
+        onYouTubeIframeAPIReady(this.id);
+      }
+    }else{
+      loadJS('js/youtube.js', this.startVideo.bind(this), document.body);
+    }
+    
+    s.setTheme("https://img.youtube.com/vi/"+pID+"/maxresdefault.jpg");
+
   }
 
   play(){
@@ -102,7 +142,9 @@ function connected(){
 }
 
 function startApp(pName){
+   
   s.startApp(window[pName]);
+
 }
 
 s = new scrd(document);

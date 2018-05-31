@@ -7,13 +7,33 @@ var http = require('http').Server(mobileapp);
 var io = require('socket.io')(http);
 var ip = require('ip');
 
+/*
+var http2 = require('http'),
+    httpProxy = require('http-proxy');
+//
+// Create your proxy server and set the target in the options.
+//
+httpProxy.createProxyServer({target:'https://m.youtube.com'}).listen(8000); // See (†)
 
+//
+// Create your target server
+//
+http2.createServer(function (req, res) {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.write('request successfully proxied!' + '\n' + JSON.stringify(req.headers, true, 2));
+  res.end();
+}).listen(9000);
+*/
 
 
 
 var contents;
 mobileapp.get('/', function(req, res){
   res.sendFile(__dirname + '/mobile/index.html');
+});
+
+mobileapp.get('/keys.js', function(req, res){
+  res.sendFile(__dirname + '/keys.js');
 });
 
 io.on('connection', function(socket){

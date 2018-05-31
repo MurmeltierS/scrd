@@ -110,9 +110,12 @@
         }
 
         .microAppBG{
+          position: absolute;
           width: 100vw;
           height: 100vh;
           overflow: hidden;
+          top: 0;
+          left: 0;
         }
 
         .microAppBG img {
@@ -235,7 +238,93 @@
           width: 100%;
           padding: 10px;
           vertical-align: middle;
+          font-family: inherit;
         }
+
+        button.small{
+          display: inline;
+          background: transparent;
+          border: 1px solid #fff;
+          border-radius: 1000px;
+          color: inherit;
+          font-size: 1.5em;
+          text-align: center;
+          line-height: inherit;
+          width: 51px;
+          padding: 10px;
+          vertical-align: middle;
+          font-family: inherit;
+          float: right;
+        }
+
+        input{
+          outline: none;
+        }
+
+        input[type="text"].normal{
+          display: inline;
+          background: transparent;
+          border: 1px solid #fff;
+          border-radius: 1000px;
+          color: inherit;
+          font-size: 1.5em;
+          text-align: left;
+          line-height: inherit;
+          width: calc(100% - 100px);
+          padding: 10px 20px;
+          vertical-align: middle;
+          font-weight: 200;
+
+          font-family: inherit;
+        }
+
+        .wrapper{
+          margin: 0 20px;
+        }
+
+        .youtubeFrame{
+          width: 100vw;
+          height: 80vh;
+          border: none;
+        }
+
+        .YOUTUBEmobile .searchItem{
+          display: block;
+          width: 100%;
+          min-height: 100px;
+          margin: 20px 0;
+        }
+
+        .YOUTUBEmobile .searchItem .thumb{
+          width: 40%;
+          display: inline-block;
+        }
+
+        .YOUTUBEmobile .searchItem h3{
+          display: inline-block;
+          width: 50%;
+          font-family: inherit;
+          font-weight: 200;
+          font-size: 16px;
+          vertical-align: top;
+          margin: 0 0 0 5px;
+        }
+
+        .YOUTUBEmobile .wrapper{
+          height: calc(100vh - 78px);
+          overflow-y: scroll;
+        }
+
+        .fullscreen{
+          position: absolute;
+          width: 100vw;
+          height: 100vh;
+          top: 0;
+          left: 0;
+        }
+
+
+
 
 
 
@@ -244,10 +333,14 @@
 <meta name="theme-color" content="#111">
   </head>
   <body>
-    <div id="window">
+    <div id="fullscreen" onclick="full_screen();">
+    <div class="microAppBG"> <img class="themeIMG" src="http://kurzgesagt.org/wp-content/uploads/2017/06/Start-Page_WhiteDwarfs.png"> </div> 
+    <div class="microApp"> 
+      <div id="window"></div>
     </div>
-    
+    </div>
   </body>
+  <script src="/keys.js"></script>
   <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
@@ -258,7 +351,7 @@
     this.win = pWin;
     this.name = "HOMEmobile";
     this.win.classList.add(this.name);
-    this.html = "<div class=\"microAppBG\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <\/div> <div class=\"microApp\"> <div class=\"main\"> <div class=\"navTop\"><h1>Home<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\">  <h2>W\u00E4hle die zu startende App.<\/h2> <button  onclick=\"socket.emit(\'startApp\', \'YouTube\')\" class=\"normal\">YouTube<\/button> <\/div><div class=\"bottom\"> <\/div> <\/div> <\/div>";
+    this.html = "<div class=\"microAppBG\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <\/div> <div class=\"microApp\"> <div class=\"main\"> <div class=\"navTop\"><h1>Home<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\">  <h2>W\u00E4hle die zu startende App.<\/h2> <button  onclick=\"socket.emit(\'startApp\', \'YouTube\')\" class=\"normal\">YouTube<\/button> <\/div><div class=\"bottom\"> <\/div> <\/div>";
     this.start();
   }
 
@@ -269,32 +362,98 @@
 
 var YouTubeMobile = class YouTubeMobile {
   constructor(pWin) {
+    console.log(this);
+    
     this.win = pWin;
     this.name = "YOUTUBEmobile";
     this.win.classList.add(this.name);
     this.volume = 100;
-    this.play = false;
-    this.html = "<div class=\"microAppBG\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <\/div> <div class=\"microApp\"> <div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2>The Last Light Before Eternal Darkness<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i class=\"ion-ios-play-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div> <\/div>";
+    this.play = true;
+    this.currentMode = "home";
+    this.searchHtml = '<div class=\"main\"><div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div><div class=\"wrapper\"><input type=\"text\" class=\"normal searchInput\"><button class=\"small searchBtn\"><i class=\"ion-ios-search\"><\/i></button><br><div class="searchItems"></div><div></div>';
+    this.videoHtml = "<div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2 class=\"videoTitle\">...<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i id=\"playBTN\" class=\"ion-ios-pause-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div>";
     this.start();
 
   }
 
   start() {
+    this.screenSearch();
     
-    this.win.innerHTML = this.html;
-    document.getElementById("ytPlay").addEventListener("click", this.toggle, false);
+    
+  }
+
+  back(){
+    if(this.currentMode == "home"){
+      m.startApp(Home);
+    }else{
+      this.screenSearch();
+    }
+  }
+
+  screenSearch(){
+    this.currentMode = "home";
+    m.nextPage();
+    this.win.innerHTML = this.searchHtml;
+    this.win.querySelector(".searchBtn").addEventListener("click", this.clickSearch.bind(this), false);
+  }
+
+  clickSearch(){
+    m.nextPage();
+    console.log("clickSearch");
+    console.log(this);
+    this.searchVideo(this.win.querySelector(".searchInput").value);
   }
 
   toggle(){
+    console.log("play:"+self.play);
     if(!this.play){
       m.call("play")();
       console.log("play");
+      document.getElementById("playBTN").classList = "ion-ios-pause-outline";
       this.play = true;
     }else{
       m.call("pause")();
-      console.log("pause")
+      console.log("pause");
+      document.getElementById("playBTN").classList = "ion-ios-play-outline";
       this.play = false;
     };
+  }
+
+  setTitle(pTitle){
+    this.win.querySelector(".videoTitle").innerHTML = pTitle;
+  }
+
+  searchVideo(pTerm){
+    console.log("term: "+pTerm);
+    m.callAjax("https://www.googleapis.com/youtube/v3/search?q="+pTerm+"&maxResults=25&part=snippet&key="+keys.YT, this.displaySearch.bind(this));
+  }
+
+  displaySearch(obj){
+    console.log("displaySearch");
+    console.log(obj);
+    var items = obj.items;
+    var domItems = this.win.querySelector(".searchItems");
+    for(var i = 0; i < items.length; i++){
+      if(items[i].id.kind == "youtube#video"){
+        var tempItem = document.createElement("DIV");
+        tempItem.classList.add("searchItem");
+        tempItem.innerHTML = '<img src="'+items[i].snippet.thumbnails.medium.url+'" class="thumb"><h3>'+items[i].snippet.title+'</h3>';
+        var videoId = items[i].id.videoId;
+        tempItem.addEventListener("click", function(videoId){this.loadVideo(videoId)}.bind(this, videoId), false);
+        domItems.append(tempItem);
+      }
+    }
+  }
+
+  loadVideo(pID){
+    this.currentMode = "video";
+    m.nextPage();
+    this.win.innerHTML = this.videoHtml;
+    this.play = true;
+    document.getElementById("ytPlay").addEventListener("click", this.toggle.bind(this), false);
+    m.call("loadVideo")(pID);
+    m.setTheme("https://img.youtube.com/vi/"+pID+"/maxresdefault.jpg");
+
   }
 
   updateVolume(pVol){
@@ -310,6 +469,7 @@ var YouTubeMobile = class YouTubeMobile {
   constructor(pWin) {
     this.win = pWin;
     this.currentApp = [];
+    this.hash;
   }
   
   get app() {
@@ -326,6 +486,25 @@ var YouTubeMobile = class YouTubeMobile {
       socket.emit('call', {call: pFuncString, arg: args});
     };
   }
+
+  callAjax(url, callback){
+    var xmlhttp;
+    // compatible with IE7+, Firefox, Chrome, Opera, Safari
+    xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function(){
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            try{
+              var json = JSON.parse(xmlhttp.responseText);
+              callback(json);
+            }catch(e){
+              console.log(e);
+              callback(xmlhttp.responseText);
+            }
+        }
+    }
+    xmlhttp.open("GET", url, true);
+    xmlhttp.send();
+}
 
   createWin() {
     this.win.getElementById("window").classList = "";
@@ -352,6 +531,36 @@ var YouTubeMobile = class YouTubeMobile {
   }
   }
 
+  back(){
+    try{
+      this.app.back()
+    }catch(e){
+      console.log(e);
+    }
+  }
+
+  initPageMaster(){
+    this.hash = window.location.hash;
+    setInterval(function(){
+    if (window.location.hash != this.hash) {
+        if(window.location.hash < this.hash){
+          this.back();
+        }
+        
+       
+        this.hash = window.location.hash;
+    }
+    }.bind(this), 100);
+  }
+
+  nextPage(){
+    if(/^#\+?(0|[1-9]\d*)$/.test(window.location.hash)){
+      window.location.hash = "#"+(parseInt(window.location.hash.replace("#",""))+1);
+    }else{
+      window.location.hash = "#1";
+    }
+  }
+
 }
 
 var m = new scrdMobile(document);
@@ -368,6 +577,86 @@ socket.on('exeFunction', function(msg){
       m.exeFunction(msg);
 
     });
+
+
+
+function full_screen()
+            {
+                // check if user allows full screen of elements. This can be enabled or disabled in browser config. By default its enabled.
+                //its also used to check if browser supports full screen api.
+                if("fullscreenEnabled" in document || "webkitFullscreenEnabled" in document || "mozFullScreenEnabled" in document || "msFullscreenEnabled" in document) 
+                {
+                    if(document.fullscreenEnabled || document.webkitFullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled)
+                    {
+                        console.log("User allows fullscreen");
+                    
+                        var element = document.getElementById("fullscreen");
+                        //requestFullscreen is used to display an element in full screen mode.
+                        if("requestFullscreen" in element) 
+                        {
+                            element.requestFullscreen();
+                        } 
+                        else if ("webkitRequestFullscreen" in element) 
+                        {
+                            element.webkitRequestFullscreen();
+                        } 
+                        else if ("mozRequestFullScreen" in element) 
+                        {
+                            element.mozRequestFullScreen();
+                        } 
+                        else if ("msRequestFullscreen" in element) 
+                        {
+                            element.msRequestFullscreen();
+                        }
+
+                    }
+                }
+                else
+                {
+                    console.log("User doesn't allow full screen");
+                }
+            }
+
+            function screen_change()
+            {
+                //fullscreenElement is assigned to html element if any element is in full screen mode.
+                if(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) 
+                {
+                    console.log("Current full screen element is : " + (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement))
+                }
+                else
+                {
+                    // exitFullscreen us used to exit full screen manually
+                    if ("exitFullscreen" in document) 
+                    {
+                        document.exitFullscreen();
+                    } 
+                    else if ("webkitExitFullscreen" in document) 
+                    {
+                        document.webkitExitFullscreen();
+                    } 
+                    else if ("mozCancelFullScreen" in document) 
+                    {
+                        document.mozCancelFullScreen();
+                    } 
+                    else if ("msExitFullscreen" in document) 
+                    {
+                        document.msExitFullscreen();
+                    }
+                }
+            }
+
+             //called when an event goes full screen and vice-versa.
+            document.addEventListener("fullscreenchange", screen_change);
+            document.addEventListener("webkitfullscreenchange", screen_change);
+            document.addEventListener("mozfullscreenchange", screen_change);
+            document.addEventListener("MSFullscreenChange", screen_change);
+
+            //called when requestFullscreen(); fails. it may fail if iframe don't have allowfullscreen attribute enabled or for something else. 
+            document.addEventListener("fullscreenerror", function(){console.log("Full screen failed");});
+            document.addEventListener("webkitfullscreenerror", function(){console.log("Full screen failed");});
+            document.addEventListener("mozfullscreenerror", function(){console.log("Full screen failed");});
+            document.addEventListener("MSFullscreenError", function(){console.log("Full screen failed");});
 
 </script>
 </html>
