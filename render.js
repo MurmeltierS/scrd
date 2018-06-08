@@ -133,8 +133,8 @@ var YouTube = class YouTube {
 }
 
 function makeQR(pURL){
-  new QRCode(document.getElementById("qrcode"), pURL);
   document.getElementById("window").innerHTML += "<br><b>"+pURL+"</b>";
+  new QRCode(document.getElementById("qrcode"), pURL);
 }
 
 
