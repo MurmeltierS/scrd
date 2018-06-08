@@ -6,6 +6,8 @@ var mobileapp = require('express')();
 var http = require('http').Server(mobileapp);
 var io = require('socket.io')(http);
 var ip = require('ip');
+var url = require('url');
+var fs = require('fs');
 
 /*
 var http2 = require('http'),
