@@ -37,6 +37,7 @@ var YouTubeMobile = class YouTubeMobile {
 
     clickSearch() {
         m.nextPage();
+        this.win.querySelector(".searchItems").innerHTML += "";
         console.log("clickSearch");
         console.log(this);
         this.searchVideo(this.win.querySelector(".searchInput").value);
