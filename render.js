@@ -141,11 +141,11 @@ var YouTube = class YouTube {
     }
 
     play() {
-        player.playVideo();
+        this.player.playVideo();
     }
 
     pause() {
-        player.pauseVideo();
+        this.player.pauseVideo();
     }
 
     start() {
@@ -153,9 +153,15 @@ var YouTube = class YouTube {
     }
 
     update() {
-        s.call("setTitle")(this.player.getVideoData().title);
-        s.call("updateProgressBar")((this.player.getCurrentTime() / this.player.getDuration()) * 100);
+        console.log(this);
+        try {
+            s.call("setTitle")(this.player.getVideoData().title);
+            s.call("updateProgressBar")((this.player.getCurrentTime() / this.player.getDuration()) * 100);
+        } catch (e){
+        console.log(e);
+      }
     }
+
 }
 
 function makeQR(pURL) {
