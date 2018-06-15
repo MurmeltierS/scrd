@@ -26,11 +26,18 @@ http2.createServer(function (req, res) {
 }).listen(9000);
 */
 
-
+global.req = [];
 
 var contents;
-mobileapp.get('/', function(req, res){
-  res.sendFile(__dirname + '/mobile/index.html');
+mobileapp.get('/*', function(req, res){
+  console.log("req: "+req);
+  global.req.push(req);
+  var q = url.parse(req.originalUrl, true);
+  if(req.originalUrl == "/"||req.originalUrl==""){
+    res.sendFile(__dirname + '/mobile/index.html');
+  }else{
+    res.sendFile(__dirname + q.pathname);
+  }
 });
 
 mobileapp.get('/keys.js', function(req, res){
