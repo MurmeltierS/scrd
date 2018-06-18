@@ -76,7 +76,7 @@ global.io = io;
 
   function createWindow () {
     // Create the browser window.
-    win = new BrowserWindow({width: 800, height: 600, backgroundColor: '#000', kiosk: true});
+    win = new BrowserWindow({width: 1920, height: 1080, backgroundColor: '#000', kiosk: true});
     win.setMenu(null);
     win.webContents.openDevTools();
     // und Laden der index.html der App.
