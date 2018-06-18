@@ -78,7 +78,6 @@ global.io = io;
     // Create the browser window.
     win = new BrowserWindow({width: 1920, height: 1080, backgroundColor: '#000', kiosk: true});
     win.setMenu(null);
-    win.webContents.openDevTools();
     // und Laden der index.html der App.
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'index.html'),
