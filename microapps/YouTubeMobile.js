@@ -9,7 +9,7 @@ var YouTubeMobile = class YouTubeMobile {
         this.play = true;
         this.currentMode = "home";
         this.searchHtml = '<div class=\"main\"><div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div><div class=\"wrapper\"><input type=\"text\" class=\"normal searchInput\"><button class=\"small searchBtn\"><i class=\"ion-ios-search\"><\/i></button><br><div class="searchItems"></div><div></div>';
-        this.videoHtml = "<div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2 class=\"videoTitle\">...<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i id=\"playBTN\" class=\"ion-ios-pause-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div>";
+        this.videoHtml = "<div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2 class=\"videoTitle\">...<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" oninput=\"console.log('range:'+this.value)\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i id=\"playBTN\" class=\"ion-ios-pause-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div>";
         this.start();
 
     }
@@ -72,6 +72,7 @@ var YouTubeMobile = class YouTubeMobile {
         console.log(obj);
         var items = obj.items;
         var domItems = this.win.querySelector(".searchItems");
+        domItems.innerHTML = "";
         for (var i = 0; i < items.length; i++) {
             if (items[i].id.kind == "youtube#video") {
                 var tempItem = document.createElement("DIV");
