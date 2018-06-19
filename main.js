@@ -1,4 +1,5 @@
-const {app, BrowserWindow} = require('electron');
+const electron = require('electron');
+const {app, BrowserWindow} = electron;
 const path = require('path');
 const url = require('url');
 //const http = require('http');
@@ -76,9 +77,9 @@ global.io = io;
 
   function createWindow () {
     // Create the browser window.
-    win = new BrowserWindow({width: 800, height: 600, backgroundColor: '#000', kiosk: true});
+    const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
+    win = new BrowserWindow({width, height, backgroundColor: '#000'});
     win.setMenu(null);
-    win.webContents.openDevTools();
     // und Laden der index.html der App.
     win.loadURL(url.format({
       pathname: path.join(__dirname, 'index.html'),
