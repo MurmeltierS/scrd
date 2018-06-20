@@ -12,8 +12,8 @@ var YouTube = class YouTube {
         console.log("js loaded");
         console.log(this);
         this.player = new YT.Player('video-placeholder', {
-            width: 600,
-            height: 400,
+            width: 100,
+            height: 100,
             videoId: this.id,
             playerVars: {
                 rel: 0,
@@ -24,16 +24,22 @@ var YouTube = class YouTube {
                 iv_load_policy: 3
             },
             events: {
-                onReady: this.init.bind(this)
+                onReady: this.init.bind(this),
+                onPlaybackQualityChange: this.resChange.bind(this)
             }
         });
         //s.setInterval(this.update.bind(this), 200);
     }
 
-    init(){
+    init() {
         console.log("this init:");
         console.log(this);
         s.setInterval(this.update.bind(this), 200);
+    }
+
+    resChange(e) {
+        console.log("reschange");
+        console.log(e);
     }
 
     loadVideo(pID) {
@@ -66,7 +72,7 @@ var YouTube = class YouTube {
     }
 
     update() {
-        console.log(this);
+        //console.log(this);
         try {
             s.call("setTitle")(this.player.getVideoData().title);
             s.call("updateProgressBar")((this.player.getCurrentTime() / this.player.getDuration()) * 100);

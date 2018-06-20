@@ -44,7 +44,7 @@ var YouTubeMobile = class YouTubeMobile {
     }
 
     toggle() {
-        console.log("play:" + self.play);
+        //console.log("play:" + self.play);
         if (!this.play) {
             m.call("play")();
             console.log("play");
