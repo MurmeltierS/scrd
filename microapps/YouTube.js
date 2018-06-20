@@ -71,6 +71,11 @@ var YouTube = class YouTube {
         this.win.innerHTML = this.html;
     }
 
+    updateProgress(val) {
+        var newTime = this.player.getDuration() * (val / 100);
+        this.player.seekTo(newTime);
+    }
+
     update() {
         //console.log(this);
         try {

@@ -3,6 +3,7 @@
           this.win = pWin;
           this.currentApp = [];
           this.hash;
+          this.initPageMaster();
       }
 
       get app() {
@@ -75,7 +76,8 @@
           this.hash = window.location.hash;
           setInterval(function() {
               if (window.location.hash != this.hash) {
-                  if (window.location.hash < this.hash) {
+
+                  if (parseInt(window.location.hash.replace("#", "")) < parseInt(this.hash.replace("#", ""))) {
                       this.back();
                   }
 
@@ -91,6 +93,10 @@
           } else {
               window.location.hash = "#1";
           }
+      }
+
+      launch(pName){
+        socket.emit('startApp', pName);
       }
 
   }

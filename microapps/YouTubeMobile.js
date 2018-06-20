@@ -7,9 +7,10 @@ var YouTubeMobile = class YouTubeMobile {
         this.win.classList.add(this.name);
         this.volume = 100;
         this.play = true;
+        this.progressUpdate = true;
         this.currentMode = "home";
         this.searchHtml = '<div class=\"main\"><div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div><div class=\"wrapper\"><input type=\"text\" class=\"normal searchInput\"><button class=\"small searchBtn\"><i class=\"ion-ios-search\"><\/i></button><br><div class="searchItems"></div><div></div>';
-        this.videoHtml = "<div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2 class=\"videoTitle\">...<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" oninput=\"console.log('range:'+this.value)\" type=\"range\" value=\"0\" steps=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i id=\"playBTN\" class=\"ion-ios-pause-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div>";
+        this.videoHtml = "<div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2 class=\"videoTitle\">...<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" type=\"range\" value=\"0\" step=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i id=\"playBTN\" class=\"ion-ios-pause-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div>";
         this.start();
 
     }
@@ -22,7 +23,7 @@ var YouTubeMobile = class YouTubeMobile {
 
     back() {
         if (this.currentMode == "home") {
-            m.startApp(Home);
+            m.launch('Home');
         } else {
             this.screenSearch();
         }
@@ -90,7 +91,10 @@ var YouTubeMobile = class YouTubeMobile {
         m.nextPage();
         this.win.innerHTML = this.videoHtml;
         this.play = true;
-        document.getElementById("ytPlay").addEventListener("click", this.toggle.bind(this), false);
+        this.win.querySelector('#ytProg').addEventListener("input", this.pauseProgressUpdate.bind(this));
+        this.win.querySelector('#ytProg').addEventListener("touchend", this.setProgress.bind(this));
+        this.win.querySelector('#ytProg').addEventListener("mouseup", this.setProgress.bind(this));
+        this.win.querySelector("#ytPlay").addEventListener("click", this.toggle.bind(this), false);
         m.call("loadVideo")(pID);
         m.setTheme("https://img.youtube.com/vi/" + pID + "/maxresdefault.jpg");
 
@@ -100,7 +104,19 @@ var YouTubeMobile = class YouTubeMobile {
         this.volume = pVol;
     }
 
+    pauseProgressUpdate() {
+        this.progressUpdate = false;
+    }
+
+    setProgress(e){
+
+        setTimeout(function(){this.progressUpdate = true;}.bind(this), 300);
+        m.call("updateProgress")(this.win.querySelector("#ytProg").value);
+    }
+
     updateProgressBar(pVal) {
-        document.getElementById("ytProg").value = pVal;
+        if (this.progressUpdate) {
+            document.getElementById("ytProg").value = pVal;
+        } 
     }
 }
