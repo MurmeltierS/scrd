@@ -11,6 +11,7 @@ var YouTubeMobile = class YouTubeMobile {
         this.currentMode = "home";
         this.searchHtml = '<div class=\"main\"><div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div><div class=\"wrapper\"><input type=\"text\" class=\"normal searchInput\"><button class=\"small searchBtn\"><i class=\"ion-ios-search\"><\/i></button><br><div class="searchItems"></div><div></div>';
         this.videoHtml = "<div class=\"main\"> <div class=\"navTop\"><h1>YouTube<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"> <div class=\"preview\"> <img class=\"themeIMG\" src=\"http:\/\/kurzgesagt.org\/wp-content\/uploads\/2017\/06\/Start-Page_WhiteDwarfs.png\"> <h2 class=\"videoTitle\">...<\/h2> <\/div> <\/div> <div class=\"bottom\"> <div class=\"sliderWrapper\"> <input id=\"ytProg\" class=\"slider\" type=\"range\" value=\"0\" step=\"0.01\"> <\/div> <div class=\"controls\"> <button class=\"\"><i class=\"ion-ios-rewind-outline\"><\/i><\/button> <button id=\"ytPlay\" class=\"play\"><i id=\"playBTN\" class=\"ion-ios-pause-outline\"><\/i><\/button> <button class=\"\"><i class=\"ion-ios-fastforward-outline\"><\/i><\/button> <\/div> <\/div> <\/div>";
+        this.lastSearchTerm = "";
         this.start();
 
     }
@@ -24,8 +25,14 @@ var YouTubeMobile = class YouTubeMobile {
     back() {
         if (this.currentMode == "home") {
             m.launch('Home');
-        } else {
+        } else
+        if (this.currentMode == "search") {
             this.screenSearch();
+        } else {
+            m.call("showVideo")(false);
+            m.call("pause")()
+            this.screenSearch();
+            this.searchVideo(this.lastSearchTerm);
         }
     }
 
@@ -37,6 +44,7 @@ var YouTubeMobile = class YouTubeMobile {
     }
 
     clickSearch() {
+        this.currentMode = "search";
         m.nextPage();
         this.win.querySelector(".searchItems").innerHTML += "";
         console.log("clickSearch");
@@ -64,6 +72,7 @@ var YouTubeMobile = class YouTubeMobile {
     }
 
     searchVideo(pTerm) {
+        this.lastSearchTerm = pTerm;
         console.log("term: " + pTerm);
         m.callAjax("https://www.googleapis.com/youtube/v3/search?q=" + pTerm + "&maxResults=25&part=snippet&key=" + keys.YT, this.displaySearch.bind(this));
     }
@@ -87,6 +96,7 @@ var YouTubeMobile = class YouTubeMobile {
     }
 
     loadVideo(pID) {
+        m.call("showVideo")(true);
         this.currentMode = "video";
         m.nextPage();
         this.win.innerHTML = this.videoHtml;
@@ -108,15 +118,15 @@ var YouTubeMobile = class YouTubeMobile {
         this.progressUpdate = false;
     }
 
-    setProgress(e){
+    setProgress(e) {
 
-        setTimeout(function(){this.progressUpdate = true;}.bind(this), 300);
+        setTimeout(function() { this.progressUpdate = true; }.bind(this), 300);
         m.call("updateProgress")(this.win.querySelector("#ytProg").value);
     }
 
     updateProgressBar(pVal) {
         if (this.progressUpdate) {
             document.getElementById("ytProg").value = pVal;
-        } 
+        }
     }
 }

@@ -42,17 +42,18 @@ var YouTube = class YouTube {
         console.log(e);
     }
 
+
     loadVideo(pID) {
         console.log("loadVideo:" + pID);
         this.id = pID;
-        if (typeof player !== 'undefined') {
+        if (typeof this.player !== 'undefined') {
             try {
                 this.player.loadVideoById(this.id, 0);
             } catch (e) {
                 this.startVideo();
             }
         } else {
-            loadJS('js/youtube.js', this.startVideo.bind(this), document.body);
+            this.startVideo();
         }
 
         s.setTheme("https://img.youtube.com/vi/" + pID + "/maxresdefault.jpg");
@@ -83,6 +84,14 @@ var YouTube = class YouTube {
             s.call("updateProgressBar")((this.player.getCurrentTime() / this.player.getDuration()) * 100);
         } catch (e) {
             console.log(e);
+        }
+    }
+
+    showVideo(p){
+        if(p){
+            this.win.querySelector('#video-placeholder').style.display = "block";
+        }else{
+            this.win.querySelector('#video-placeholder').style.display = "none";
         }
     }
 
