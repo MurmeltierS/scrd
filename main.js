@@ -1,5 +1,5 @@
 const electron = require('electron');
-const {app, BrowserWindow} = electron;
+const { app, BrowserWindow } = electron;
 const path = require('path');
 const url = require('url');
 //const http = require('http');
@@ -30,41 +30,41 @@ http2.createServer(function (req, res) {
 global.req = [];
 
 var contents;
-mobileapp.get('/*', function(req, res){
-  console.log("req: "+req);
-  global.req.push(req);
-  var q = url.parse(req.originalUrl, true);
-  if(req.originalUrl == "/"||req.originalUrl==""){
-    res.sendFile(__dirname + '/mobile/index.html');
-  }else{
-    res.sendFile(__dirname + q.pathname);
-  }
+mobileapp.get('/*', function(req, res) {
+    console.log("req: " + req);
+    global.req.push(req);
+    var q = url.parse(req.originalUrl, true);
+    if (req.originalUrl == "/" || req.originalUrl == "") {
+        res.sendFile(__dirname + '/mobile/index.html');
+    } else {
+        res.sendFile(__dirname + q.pathname);
+    }
 });
 
-mobileapp.get('/keys.js', function(req, res){
-  res.sendFile(__dirname + '/keys.js');
+mobileapp.get('/keys.js', function(req, res) {
+    res.sendFile(__dirname + '/keys.js');
 });
 
-io.on('connection', function(socket){
-  console.log('a user connected');
-  contents.executeJavaScript('connected()');
-  socket.on('call', function(msg){
-    contents.executeJavaScript('s.exeFunction('+JSON.stringify(msg)+')')
-  });
-  socket.on('startApp', function(msg){
-    console.log('startApp: ' + msg);
-    contents.executeJavaScript('startApp("'+msg+'")');
-    io.emit('startApp', msg);
-  });
+io.on('connection', function(socket) {
+    console.log('a user connected');
+    contents.executeJavaScript('connected()');
+    socket.on('call', function(msg) {
+        contents.executeJavaScript('s.exeFunction(' + JSON.stringify(msg) + ')')
+    });
+    socket.on('startApp', function(msg) {
+        console.log('startApp: ' + msg);
+        contents.executeJavaScript('startApp("' + msg + '")');
+        io.emit('startApp', msg);
+    });
 });
 
-http.listen(3000, function(){
-  console.log('listening on '+ip.address()+':3000');
-  
+http.listen(3000, function() {
+    console.log('listening on ' + ip.address() + ':3000');
+
 });
 
-function makeQR(){
-  contents.executeJavaScript('makeQR("http://'+ip.address()+':3000'+'")');
+function makeQR() {
+    contents.executeJavaScript('makeQR("http://' + ip.address() + ':3000' + '")');
 }
 
 global.something = "heyho:)";
@@ -75,19 +75,19 @@ global.io = io;
 
 
 
-  function createWindow () {
+function createWindow() {
     // Create the browser window.
-    const {width, height} = electron.screen.getPrimaryDisplay().workAreaSize
-    win = new BrowserWindow({width, height, backgroundColor: '#000'});
+    const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
+    win = new BrowserWindow({ width, height, backgroundColor: '#000' });
     win.setMenu(null);
     // und Laden der index.html der App.
     win.loadURL(url.format({
-      pathname: path.join(__dirname, 'index.html'),
-      protocol: 'file:',
-      slashes: true
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
     }))
     contents = win.webContents;
     makeQR();
-  }
+}
 
-  app.on('ready', createWindow)
+app.on('ready', createWindow)
