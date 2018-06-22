@@ -33,6 +33,7 @@ var YouTubeMobile = class YouTubeMobile {
             m.call("pause")()
             this.screenSearch();
             this.searchVideo(this.lastSearchTerm);
+            this.win.querySelector(".searchInput").value = this.lastSearchTerm;
         }
     }
 
