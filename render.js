@@ -77,22 +77,6 @@ class scrd {
     }
 }
 
-var Home = class Home {
-    constructor(pWin) {
-        this.win = pWin;
-        this.name = "HOME";
-        this.win.classList.add(this.name);
-        this.html = "<h1>Hallo.</h1>";
-        this.start();
-    }
-
-    start() {
-        this.win.innerHTML = this.html;
-    }
-}
-
-
-
 function makeQR(pURL) {
     document.getElementById("window").innerHTML += "<br><b>" + pURL + "</b>";
     new QRCode(document.getElementById("qrcode"), pURL);
@@ -109,13 +93,13 @@ function startApp(pName) {
 
 }
 
-document.addEventListener("keydown", function (e) {
+document.addEventListener("keydown", function(e) {
     if (e.which === 123) {
-      remote.getCurrentWindow().toggleDevTools();
+        remote.getCurrentWindow().toggleDevTools();
     } else if (e.which === 116) {
-      location.reload();
+        location.reload();
     }
-  });
+});
 
 
 var loadJS = function(url, implementationCode, location) {
@@ -132,6 +116,8 @@ var loadJS = function(url, implementationCode, location) {
     document.body.appendChild(scriptTag);
 };
 
-loadJS('microapps/YouTube.js');
+var s;
 
-s = new scrd(document);
+loadJS('microapps/YouTube.js');
+loadJS('microapps/Home.js', function(){s = new scrd(document);});
+
