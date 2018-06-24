@@ -3,7 +3,7 @@ var HelloMobile = class HelloMobile {
         this.win = pWin;
         this.name = "HelloMobile";
         this.win.classList.add(this.name);
-        this.html = "<div class=\"main\"> <div class=\"navTop\"><h1>Hello<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"><input class=\"normal msg\"><br><button class=\"normal\" id=\"heyho\">Say Hello<\/button><\/div><\/div>";
+        this.html = "<div class=\"main\"> <div class=\"navTop\"><h1>Hello<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"center\"><input type=\"text\" class=\"normal msg\"><br><button class=\"normal\" id=\"heyho\">Say Hello<\/button><\/div><\/div>";
         this.lastSearchTerm = "";
         this.start();
     }
