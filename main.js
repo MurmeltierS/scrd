@@ -78,7 +78,14 @@ global.io = io;
 function createWindow() {
     // Create the browser window.
     const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
-    win = new BrowserWindow({ width, height, backgroundColor: '#000' });
+    win = new BrowserWindow({
+        webPreferences: {
+            plugins: true
+        },
+        width,
+        height,
+        backgroundColor: '#000'
+    });
     win.setMenu(null);
     // und Laden der index.html der App.
     win.loadURL(url.format({

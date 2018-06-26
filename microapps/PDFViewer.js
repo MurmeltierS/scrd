@@ -12,6 +12,6 @@ var PDFViewer = class PDFViewer {
     }
 
     display(data) {
-        this.win.innerHTML = "<iframe src=\"" + data + "\" height=\"100%\" width=\"100%\"></iframe>";
+        this.win.innerHTML = "<webview src=\"" + data + "\" style=\"display: inline-flex; width: 100vw; height: 100vh;\" plugins></webview>";
     }
 }
