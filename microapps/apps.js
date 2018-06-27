@@ -1,1 +1,1 @@
-var apps = ["YouTube","Kahoot","Hello"];
+var apps = ["YouTube","Kahoot","Hello","Moodle"];
