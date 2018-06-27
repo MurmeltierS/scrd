@@ -11,5 +11,9 @@ var Shutdown = class Shutdown {
     start() {
         this.win.innerHTML = this.html;
     }
+    shutdown() {
+	    const { spawn } = require('child_process');
+const ls = spawn('shutdown', ['now']);
+    }
 
 }

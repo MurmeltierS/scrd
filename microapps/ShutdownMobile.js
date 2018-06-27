@@ -18,6 +18,6 @@ var ShutdownMobile = class ShutdownMobile {
     }
 
     shutdown() {
-        
+	    m.call("shutdown")();
     }
 }

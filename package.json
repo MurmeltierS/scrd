@@ -12,6 +12,7 @@
     "electron": "^1.8.4"
   },
   "dependencies": {
+    "child_process": "^1.0.2",
     "electron-builder": "^20.13.3",
     "express": "^4.15.2",
     "http-proxy": "^1.17.0",
