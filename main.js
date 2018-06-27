@@ -88,6 +88,7 @@ function createWindow() {
     }))
     contents = win.webContents;
     makeQR();
+    global.win = win;
 }
 
 app.on('ready', createWindow)
