@@ -118,7 +118,7 @@ var loadJS = function(url, implementationCode, location) {
 
 var s;
 
-loadJS('microapps/Hello.js');
+loadJS('microapps/Shutdown.js');
 loadJS('microapps/YouTube.js');
 loadJS('microapps/Home.js', function(){s = new scrd(document);});
 loadJS('microapps/PDFViewer.js');
