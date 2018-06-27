@@ -3,28 +3,34 @@ var MoodleMobile = class MoodleMobile {
         this.win = pWin;
         this.name = "MoodleMobile";
         this.win.classList.add(this.name);
-        this.html = "<div class=\"main\"> <div class=\"navTop\"><h1>Hello<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"wrapper\"><div class=\"sframe\"></div><\/div><\/div>";
+        this.html = "<div class=\"main\"> <div class=\"navTop\"><h1>Moodle<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"wrapper\"><iframe sandbox=\"allow-same-origin allow-scripts allow-pointer-lock allow-scripts\" class=\"sframe\"></iframe><\/div><\/div>";
         this.lastSearchTerm = "";
         this.start();
     }
 
     start() {
         this.win.innerHTML = this.html;
-        this.win.querySelector("#heyho").addEventListener("click", this.sayHello.bind(this));
     }
 
     back() {
         //wird aufgerufen wenn nutzer zurück drückt
     }
 
-    sayHello() {
-        var message = this.win.querySelector(".msg").value;
-        m.call("hello")(message);
+    setFrame(html){
+        console.log(html);
+         this.win.querySelector(".sframe").src = "";
+        this.win.querySelector(".sframe").contentWindow.document.documentElement.innerHTML = html;
+        this.win.querySelector(".sframe").contentWindow.document.addEventListener("click", this.handleClick.bind(this));
     }
 
-    answer(msg, num){
-        alert(msg);
-        alert("btw this is an important number: "+num);
+    handleClick(e){
+        console.log(e);
+        for (var i = 0; i < e.path.length; i++) {
+            if(typeof e.path[i].href !== 'undefined'){
+                m.call("setHref")(e.path[i].href);
+                break;
+            }
+        }
     }
 
 }
