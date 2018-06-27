@@ -16,17 +16,25 @@ var MoodleMobile = class MoodleMobile {
         //wird aufgerufen wenn nutzer zurück drückt
     }
 
-    setFrame(html){
-        console.log(html);
-         this.win.querySelector(".sframe").src = "";
+    setFrame(html) {
+        if (this.win.querySelector(".sframe").src != "") {
+            this.win.querySelector(".sframe").src = "";
+        }
         this.win.querySelector(".sframe").contentWindow.document.documentElement.innerHTML = html;
         this.win.querySelector(".sframe").contentWindow.document.addEventListener("click", this.handleClick.bind(this));
+        var links = this.win.querySelector(".sframe").contentWindow.document.links;
+        for (var i in links) {
+            //links[i].hrefb = "";
+            //links[i].hrefb = links[i].origin+links[i].pathname;
+            //links[i].href = "na.html";
+        }
     }
 
-    handleClick(e){
+    handleClick(e) {
+        e.preventDefault();
         console.log(e);
         for (var i = 0; i < e.path.length; i++) {
-            if(typeof e.path[i].href !== 'undefined'){
+            if (typeof e.path[i].href !== 'undefined') {
                 m.call("setHref")(e.path[i].href);
                 break;
             }

@@ -29,7 +29,7 @@ var Moodle = class Moodle {
     }
 
     setHref(href){
-        this.win.querySelector("#moodleFrame").contentWindow.location.href = href;
+        this.win.querySelector("#moodleFrame").contentWindow.location.assign(href);
     }
 
 }
