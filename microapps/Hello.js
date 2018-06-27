@@ -2,7 +2,6 @@ var Hello = class Hello {
     constructor(pWin) {
         this.win = pWin;
         this.name = "Hello";
-        this.id = "";
         this.win.classList.add(this.name);
         this.html = "";
         this.start();

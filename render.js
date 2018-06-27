@@ -53,12 +53,18 @@ class scrd {
         return this.win.getElementById("window");
     }
 
-    startApp(pApp) {
+    startApp(pApp, pName) {
         var id = window.setInterval(function() {}, 0);
         while (id--) {
             window.clearTimeout(id); // will do nothing if no timeout with id is present
         }
-        this.currentApp = new pApp(this.createWin());
+        if (typeof pApp !== 'undefined') {
+            this.currentApp = new pApp(this.createWin());
+        } else {
+            if (document.querySelectorAll('script[src="microapps/' + pName + '.js"]').length == 0) {
+                loadJS("microapps/" + pName + ".js", function(pName) { this.startApp(window[pName], pName); }.bind(this, pName));
+            }
+        }
     }
 
     setTheme(pSrc) {
@@ -88,8 +94,9 @@ function connected() {
 }
 
 function startApp(pName) {
-
-    s.startApp(window[pName]);
+    console.log("pName:");
+    console.log(pName);
+    s.startApp(window[pName], pName);
 
 }
 
@@ -120,5 +127,9 @@ var s;
 
 loadJS('microapps/Hello.js');
 loadJS('microapps/YouTube.js');
+<<<<<<< HEAD
 loadJS('microapps/Home.js', function(){s = new scrd(document);});
 loadJS('microapps/PDFViewer.js');
+=======
+loadJS('microapps/Home.js', function() { s = new scrd(document); });
+>>>>>>> master

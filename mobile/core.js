@@ -45,8 +45,14 @@
           return this.win.getElementById("window");
       }
 
-      startApp(pApp) {
-          this.currentApp = new pApp(this.createWin());
+      startApp(pApp, pName) {
+          if (typeof pApp !== 'undefined') {
+              this.currentApp = new pApp(this.createWin());
+          } else {
+              if (document.querySelectorAll('script[src="microapps/' + pName + 'Mobile.js"]').length == 0) {
+                  loadJS("microapps/" + pName + "Mobile.js", function(pName) { this.startApp(window[pName + "Mobile"], pName); }.bind(this, pName));
+              }
+          }
       }
 
       setTheme(pSrc) {
@@ -95,8 +101,23 @@
           }
       }
 
-      launch(pName){
-        socket.emit('startApp', pName);
+      launch(pName) {
+          socket.emit('startApp', pName);
       }
 
   }
+
+
+  var loadJS = function(url, implementationCode, location) {
+      //url is URL of external file, implementationCode is the code
+      //to be called from the file, location is the location to 
+      //insert the <script> element
+
+      var scriptTag = document.createElement('script');
+      scriptTag.src = url;
+
+      scriptTag.onload = implementationCode;
+      scriptTag.onreadystatechange = implementationCode;
+
+      document.body.appendChild(scriptTag);
+  };

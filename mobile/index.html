@@ -331,6 +331,33 @@
         overflow-y: scroll;
     }
 
+    .KahootMobile .searchItem {
+        display: block;
+        width: 100%;
+        min-height: 100px;
+        margin: 20px 0;
+    }
+
+    .KahootMobile .searchItem .thumb {
+        width: 40%;
+        display: inline-block;
+    }
+
+    .KahootMobile .searchItem h3 {
+        display: inline-block;
+        width: 50%;
+        font-family: inherit;
+        font-weight: 200;
+        font-size: 16px;
+        vertical-align: top;
+        margin: 0 0 0 5px;
+    }
+
+    .KahootMobile .wrapper {
+        height: calc(100vh - 78px);
+        overflow-y: scroll;
+    }
+
     .fullscreen {
         position: absolute;
         width: 100vw;
@@ -344,7 +371,7 @@
 </head>
 
 <body>
-    <div id="fullscreen" onclick="full_screen();">
+    <div id="fullscreen">
         <div class="microAppBG"> <img class="themeIMG" src="http://kurzgesagt.org/wp-content/uploads/2017/06/Start-Page_WhiteDwarfs.png"> </div>
         <div class="microApp">
             <div id="window"></div>
@@ -366,7 +393,7 @@ window.onload = function() {
 
     socket.on('startApp', function(msg) {
 
-        m.startApp(window[msg + "Mobile"]);
+        m.startApp(window[msg + "Mobile"], msg);
 
     });
 
