@@ -80,6 +80,7 @@ function createWindow() {
     // Create the browser window.
     const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
     win = new BrowserWindow({
+<<<<<<< HEAD
         width,
         height,
         backgroundColor: '#000',
@@ -87,6 +88,14 @@ function createWindow() {
         "web-preferences": {
             "web-security": false
         }
+=======
+        webPreferences: {
+            plugins: true
+        },
+        width,
+        height,
+        backgroundColor: '#000'
+>>>>>>> pdfviewer
     });
     win.setMenu(null);
     // und Laden der index.html der App.
