@@ -13,7 +13,12 @@ var Shutdown = class Shutdown {
     }
     shutdown() {
 	    const { spawn } = require('child_process');
-const ls = spawn('shutdown', ['now']);
+	const ls = spawn('shutdown', ['now']);
     }
 
+	reboot() {
+		const { spawn } = require('child_process');
+		const ls = spawn('reboot');
+
+}
 }
