@@ -32,4 +32,12 @@ var Moodle = class Moodle {
         this.win.querySelector("#moodleFrame").contentWindow.location.assign(href);
     }
 
+    setInput(id,val){
+        this.win.querySelector("#moodleFrame").contentWindow.document.querySelector("#"+id).value = val;
+    }
+
+    clickBtn(id){
+        this.win.querySelector("#moodleFrame").contentWindow.document.querySelector("#"+id).click()
+    }
+
 }
