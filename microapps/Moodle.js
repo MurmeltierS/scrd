@@ -25,7 +25,7 @@ var Moodle = class Moodle {
         var html = this.win.querySelector("#moodleFrame").contentWindow.document.documentElement.innerHTML;
         this.lastHtml = html;
         console.log(html);
-        s.call("setFrame")(html);
+        s.call("setFrame")(html, this.win.querySelector("#moodleFrame").contentWindow.location.href);
     }
 
     setHref(href){
