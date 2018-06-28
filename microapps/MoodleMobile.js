@@ -3,7 +3,7 @@ var MoodleMobile = class MoodleMobile {
         this.win = pWin;
         this.name = "MoodleMobile";
         this.win.classList.add(this.name);
-        this.html = "<div class=\"main\"> <div class=\"navTop\"><h1>Moodle<\/h1><i class=\"navBtn ion-ios-more-outline\"><\/i><\/div> <div class=\"wrapper\"><iframe sandbox=\"allow-same-origin allow-scripts allow-pointer-lock allow-scripts\" class=\"sframe\"></iframe><\/div><\/div>";
+        this.html = "<div class=\"main\"> <div class=\"navTop\"><h1>Moodle<\/h1><i onclick=\"m.call('setHref')('https://moodle.gsz-zak.de/moodle/')\" class=\"navBtn ion-ios-home-outline\"><\/i><\/div> <div class=\"wrapper\"><iframe sandbox=\"allow-same-origin allow-scripts allow-pointer-lock allow-scripts\" class=\"sframe\"></iframe><\/div><\/div>";
         this.lastSearchTerm = "";
         this.origin = "";
         this.start();
@@ -24,12 +24,12 @@ var MoodleMobile = class MoodleMobile {
         }
         this.origin = origin;
         this.win.querySelector(".sframe").contentWindow.document.documentElement.innerHTML = html;
-        var links = this.win.querySelector(".sframe").contentWindow.document.links;
+        /*var links = this.win.querySelector(".sframe").contentWindow.document.links;
         for (var i in links) {
             //links[i].hrefb = "";
             //links[i].hrefb = links[i].origin+links[i].pathname;
             //links[i].href = "na.html";
-        }
+        }*/
     }
 
     absolute(base, relative) {

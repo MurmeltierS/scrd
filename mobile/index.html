@@ -399,10 +399,21 @@
 <script src="/microapps/PDFViewerMobile.js"></script>
 <script src="/mobile/core.js"></script>
 <script>
+    var relnew;
 window.onload = function() {
     socket = io();
     m = new scrdMobile(document);
-    m.startApp(HomeMobile);
+    relnew = true;
+
+    socket.on('openHome', function(msg) {
+        console.log(relnew);
+        if(relnew){
+            relnew = false;
+            m.launch('Home');
+        }
+        
+
+    });
 
     socket.on('startApp', function(msg) {
 

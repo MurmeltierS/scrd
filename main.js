@@ -48,6 +48,7 @@ mobileapp.get('/keys.js', function(req, res) {
 io.on('connection', function(socket) {
     console.log('a user connected');
     contents.executeJavaScript('connected()');
+    //io.emit('openHome', '1');
     socket.on('call', function(msg) {
         contents.executeJavaScript('s.exeFunction(' + JSON.stringify(msg) + ')')
     });
