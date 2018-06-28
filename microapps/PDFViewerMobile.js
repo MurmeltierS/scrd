@@ -3,7 +3,7 @@ var PDFViewerMobile = class PDFViewerMobile {
         this.win = pWin;
         this.name = "PDFViewerMobile";
         this.win.classList.add(this.name);
-        this.html = "<input id=\"uploadfile\" type=\"file\" /><input id=\"upload\" type=\"button\" value=\"clickme\" /><br><div class=\"pvScroll\"><div class=\"fill\"><img id=\"pv\" src=\"\"  alt=\"Image preview...\"></div></div>";
+        this.html = "<div class=\"main\"><div class=\"navTop\"><h1>PDFs<\/h1><i onclick=\"m.launch('Home')\" class=\"navBtn ion-ios-arrow-left\"><\/i><\/div><div class=\"center\"><label for=\"uploadfile\">Datei wählen</label><input class=\"inputfile\" name=\"uploadfile\" id=\"uploadfile\" type=\"file\" /><br><br><button class=\"normal\" id=\"upload\">Upload</button><br></div><div class=\"pvScroll\"><div class=\"fill\"><img id=\"pv\" src=\"\"  alt=\"Image preview...\"></div></div>";
         this.lastSearchTerm = "";
         this.scrollTimeout = null;
         this.start();

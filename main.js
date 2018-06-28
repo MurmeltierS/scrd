@@ -28,6 +28,7 @@ http2.createServer(function (req, res) {
 */
 
 global.req = [];
+global.fs = fs;
 
 var contents;
 mobileapp.get('/*', function(req, res) {

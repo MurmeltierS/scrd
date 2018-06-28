@@ -3,7 +3,7 @@ var PDFViewer = class PDFViewer {
         this.win = pWin;
         this.name = "PDFViewer";
         this.win.classList.add(this.name);
-        this.html = ""; 
+        this.html = "";
         this.lastScroll;
         this.start();
     }
@@ -13,18 +13,23 @@ var PDFViewer = class PDFViewer {
         setInterval(this.updatePv.bind(this), 1000);
     }
 
-    scrollTo(rel){
+    scrollTo(rel) {
         this.lastScroll = rel;
-        var scroll = rel * this.win.clientHeight;
-        console.log("scroll:"+scroll);
-        this.win.querySelector("#swrap").scrollTop = scroll;
+        var scroll = rel * document.querySelector('iframe').contentWindow.document.querySelector("#viewerContainer").clientHeight;
+        console.log("scroll:" + scroll);
+        document.querySelector('iframe').contentWindow.document.querySelector("#viewerContainer").scrollTop = scroll;
     }
 
-    updatePv(){
-        remote.getGlobal('win').webContents.capturePage(function(e){s.call("setPv")(e.toDataURL(),this.lastScroll);}.bind(this));
+    updatePv() {
+        remote.getGlobal('win').webContents.capturePage(function(e) { s.call("setPv")(e.toDataURL(), this.lastScroll); }.bind(this));
     }
 
     display(data) {
-        this.win.innerHTML = "<div id=\"swrap\" style=\"height: 100vh; width: 100vw;overflow-y:scroll;\" ><webview src=\"" + data + "\" style=\"display: inline-flex; width: 100vw; height: 200vh\" plugins></webview></div>";
+        let base64Pdf = data.split(';base64,').pop();
+        remote.getGlobal('fs').writeFile('temp/temp.pdf', base64Pdf, { encoding: 'base64' }, function(err) {
+            console.log(err);
+            this.win.innerHTML = "<iframe src=\"http://localhost:3000/web/viewer.html?file=/temp/temp.pdf\" style=\"display: inline-flex; width: 100vw; height: 100vh\"></iframe>";
+
+        }.bind(this));
     }
 }
