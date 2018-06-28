@@ -4,7 +4,7 @@ var Shutdown = class Shutdown {
         this.name = "Shutdown";
         this.id = "";
         this.win.classList.add(this.name);
-        this.html = "Shutdown the pi?";
+        this.html = "<h1>Herunterfahren oder Neustart?</h1>";
         this.start();
     }
 
