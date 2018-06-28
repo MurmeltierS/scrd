@@ -90,7 +90,7 @@ function makeQR(pURL) {
 
 
 function connected() {
-    setTimeout(function(){remote.getGlobal('io').emit('openHome', '');},2000);
+    setTimeout(function(){remote.getGlobal('io').emit('openHome', '');},200);
     //s.userConnected();
 }
 

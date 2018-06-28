@@ -363,9 +363,16 @@
         width: 100%;
         height: 100%;
         background-color: #fff;
+        border: none;
     }
 
     .MoodleMobile .wrapper {
+        margin: 0;
+        height: calc(100vh - 78px);
+        overflow-y: scroll;
+    }
+
+    .HomeMobile .wrapper{
         margin: 0;
         height: calc(100vh - 78px);
         overflow-y: scroll;
@@ -387,7 +394,7 @@
     <div id="fullscreen">
         <div class="microAppBG"> <img class="themeIMG" src="http://kurzgesagt.org/wp-content/uploads/2017/06/Start-Page_WhiteDwarfs.png"> </div>
         <div class="microApp">
-            <div id="window"></div>
+            <div id="window">connecting...</div>
         </div>
     </div>
 </body>

@@ -108,7 +108,8 @@ body {
     display: block;
     height: 20vh;
     margin: auto;
+    padding: 0 40px;
     margin-top: 40vh;
-    font-size: 18vh;
+    font-size: 12vh;
     line-height: 20vh;
 }

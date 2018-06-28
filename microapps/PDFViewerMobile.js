@@ -9,12 +9,13 @@ var PDFViewerMobile= class PDFViewerMobile {
     }
 
     start() {
+        m.nextPage();
         this.win.innerHTML = this.html;
         this.win.querySelector("#upload").addEventListener("click", this.startupload.bind(this), false); 
     }
 
     back() {
-        //wird aufgerufen wenn nutzer zurück drückt
+        m.launch('Home');
     }
 
     startupload() {
