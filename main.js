@@ -80,22 +80,14 @@ function createWindow() {
     // Create the browser window.
     const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize
     win = new BrowserWindow({
-<<<<<<< HEAD
         width,
         height,
         backgroundColor: '#000',
         "node-integration": "iframe", // and this line
         "web-preferences": {
-            "web-security": false
+            "web-security": false,
+            "plugins": true
         }
-=======
-        webPreferences: {
-            plugins: true
-        },
-        width,
-        height,
-        backgroundColor: '#000'
->>>>>>> pdfviewer
     });
     win.setMenu(null);
     // und Laden der index.html der App.
@@ -108,12 +100,12 @@ function createWindow() {
     makeQR();
     global.win = win;
     win.webContents.session.webRequest.onHeadersReceived({}, (d, c) => {
-    if(d.responseHeaders['x-frame-options'] || d.responseHeaders['X-Frame-Options']){
-        delete d.responseHeaders['x-frame-options'];
-        delete d.responseHeaders['X-Frame-Options'];
-    }
-    c({cancel: false, responseHeaders: d.responseHeaders});
-  });
+        if (d.responseHeaders['x-frame-options'] || d.responseHeaders['X-Frame-Options']) {
+            delete d.responseHeaders['x-frame-options'];
+            delete d.responseHeaders['X-Frame-Options'];
+        }
+        c({ cancel: false, responseHeaders: d.responseHeaders });
+    });
 }
 
 app.on('ready', createWindow)
