@@ -15,7 +15,7 @@ var MoodleMobile = class MoodleMobile {
     }
 
     back() {
-        //wird aufgerufen wenn nutzer zurück drückt
+        m.launch('Home');
     }
 
     setFrame(html, origin) {
