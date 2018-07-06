@@ -16,4 +16,9 @@ var Slides = class Slides {
         remote.getGlobal('win').webContents.sendInputEvent({keyCode: ' ', type: 'keyUp'});
     }
 
+    before(){
+         remote.getGlobal('win').webContents.sendInputEvent({keyCode: 'Left', type: 'keyDown'});
+          remote.getGlobal('win').webContents.sendInputEvent({keyCode: 'Left', type: 'keyUp'});
+    }
+
 }
