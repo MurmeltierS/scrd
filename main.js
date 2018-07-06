@@ -86,6 +86,7 @@ function createWindow() {
         backgroundColor: '#000',
         "node-integration": "iframe", // and this line
         "web-preferences": {
+            "nativeWindowOpen": true,
             "web-security": false,
             "plugins": true
         }
@@ -99,6 +100,15 @@ function createWindow() {
     }))
     contents = win.webContents;
     makeQR();
+    contents.on('new-window', (event, url) => {
+        event.preventDefault()
+        global.event = event;
+        global.url = url;
+        const win2 = new BrowserWindow({ show: false })
+        win2.once('ready-to-show', () => win.show())
+        win2.loadURL(url)
+        event.newGuest = win2
+    })
     global.win = win;
     win.webContents.session.webRequest.onHeadersReceived({}, (d, c) => {
         if (d.responseHeaders['x-frame-options'] || d.responseHeaders['X-Frame-Options']) {
