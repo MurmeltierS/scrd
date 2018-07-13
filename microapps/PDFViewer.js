@@ -26,10 +26,10 @@ var PDFViewer = class PDFViewer {
 
     display(data) {
         let base64Pdf = data.split(';base64,').pop();
-        remote.getGlobal('fs').writeFile('temp/temp.pdf', base64Pdf, { encoding: 'base64' }, function(err) {
+        remote.getGlobal('fs').writeFile('temp2.pdf', base64Pdf, { encoding: 'base64' }, function(err) {
             console.log(err);
-            this.win.innerHTML = "<iframe src=\"http://localhost:3000/web/viewer.html?file=/temp/temp.pdf\" style=\"display: inline-flex; width: 100vw; height: 100vh\"></iframe>";
-
+            this.win.innerHTML = "<iframe src=\"http://localhost:3000/web/viewer.html?file=/temp2.pdf\" style=\"display: inline-flex; width: 100vw; height: 100vh\"></iframe>";
+            //quickfix
         }.bind(this));
     }
 }
